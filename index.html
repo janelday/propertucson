@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Proper Food</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/leaflet.css" />
+        <link rel="stylesheet" href="css/leaflet.ie.css" />
+        <script type="text/javascript" src="js/leaflet.js"></script>
+    </head>
+    <body> 
+        <div>  
+            <table>
+                <tr>
+                    <td><h1>Get your food on!</h1></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="map">
+                             <script>           
+                                 var map = L.map('map').setView([34.25, -111.75], 6);
+                 //arizona state boundary    
+                                 var arizona=[{"type":"FeatureCollection","totalFeatures":1,"features":[{"type":"Feature","id":"arizona.1","geometry":{"type":"MultiLineString","coordinates":[[[-111.38455200200413,37.00000381419353],[-109.0445480346509,36.998966216198205],[-109.04930877687333,31.332004546485425],[-111.07444763165527,31.33225631599828],[-114.8125686653992,32.494602201819006],[-114.80727386485891,32.62002944796524],[-114.7018661503932,32.74488067530065],[-114.53820800777889,32.74983215231349],[-114.45783233559214,32.84481811417923],[-114.46717834492603,32.96951675276622],[-114.50963592505258,33.02273559543736],[-114.66144561785272,33.032859801409735],[-114.70592498768025,33.08874893118117],[-114.67138671884159,33.25920867792053],[-114.73062896701397,33.30285644377401],[-114.69738769476565,33.35258865343386],[-114.72416687044067,33.405918119921225],[-114.63768768309082,33.419948577479005],[-114.5233612061252,33.552730558817395],[-114.53078460695208,33.67395782434191],[-114.49349212591017,33.710968016923175],[-114.53366851791598,33.93797683578448],[-114.43762970006107,34.02197265508218],[-114.41577148383442,34.10707092230632],[-114.12998962413224,34.26156234595276],[-114.17508697468806,34.34856414738976],[-114.38539123527326,34.45730590739135],[-114.3798294069215,34.52822494420381],[-114.46920776401868,34.71064758180223],[-114.63444518981827,34.875442503773094],[-114.63671875034389,35.026103972199444],[-114.60211944637156,35.069561004144376],[-114.64569091768747,35.10260009696551],[-114.57852172883544,35.12772369317825],[-114.56836700398054,35.182464599028656],[-114.67674255361726,35.49013900737424],[-114.6530380245973,35.611488341269144],[-114.71131897031277,35.8055038439603],[-114.66101074162708,35.87140273922876],[-114.73010253898612,35.943649291137184],[-114.74999999974717,36.09376144286145],[-114.57126617372789,36.1517410268496],[-114.40160369894105,36.14632034222216],[-114.24510192934207,36.016555784877184],[-114.13850402797335,36.039642332748144],[-114.04612731903657,36.19390869045642],[-114.04914092965956,37.000015257861975],[-111.38455200200413,37.00000381419353]]]},"geometry_name":"the_geom","properties":{"FID_arizon":0,"OBJECTID":1,"NAME":"Arizona","RuleID":1,"RuleID_1":1,"Shape_Leng":2910656.06439,"Shape_Area":4.34058582244E11}}],"crs":{"type":"EPSG","properties":{"code":"4326"}}}];
+                                 var style = {
+                                     color: "#fff",
+                                     weight: 5,
+                                     opacity: 1
+                                 };
+                                 L.geoJson(arizona, {
+                                     style: style
+                                     }).addTo(map);
+                 //popup
+                                 function onEachFeature(feature, layer) {
+                                         var popupContent = feature.properties.name 
+                                                 + "</br>" 
+                                                 + "<img src='img/" + feature.properties.image +"' width='150'>"
+                                                 + "</br>" 
+                                                 + feature.properties.address
+                                                 + "</br>" 
+                                                 + feature.properties.city + ", " + feature.properties.state
+                                                 + "</br>" 
+                                                 + "<a target='_blank' href='" + feature.properties.url + "'>visit website</a>"
+
+                                         ;
+                                         layer.bindPopup(popupContent);
+                                 }
+                 //proper                    
+                                  var proper = {
+                                     "type": "Feature",
+                                     "properties": {
+                                         "name": "Proper",
+                                         "address": "300 E Congress St",
+                                         "city": "Tucson",
+                                         "state": "AZ",
+                                         "image": "proper.jpg",
+                                         "url": "http://www.propertucson.com/2013/05/downtown-tucson-dining-proper-diablo-burgers/"
+                                     },
+                                     "geometry": {
+                                         "type": "Point",
+                                         "coordinates": [-110.92583, 32.22167]
+                                     }
+                                 };
+
+                                  L.geoJson([proper], {
+
+                                         style: function (feature) {
+                                                 return feature.properties 
+                                         },
+
+                                         onEachFeature: onEachFeature,
+
+                                         pointToLayer: function (feature, latlng) {
+                                                 return L.circleMarker(latlng, {
+                                                         radius:12,
+                                                         fillColor: "orange",
+                                                         color: "orange",
+                                                         weight: 2,
+                                                         opacity: 1,
+                                                         fillOpacity: 0
+                                                 });
+                                         }
+                                 }).addTo(map);
+                 //producers                
+                                 var producers = {"type":"FeatureCollection","totalFeatures":8,"features":[{"type":"Feature","id":"providers.1","geometry":{"type":"Point","coordinates":[-109.66944290478449,31.60111091265565]},"geometry_name":"the_geom","properties":{"FNAME":"McNeal","COUNTY":"Cochise","LAT_DD":31.60111,"LON_DD":-109.66944,"POP2000":0,"name":"47 Ranch","address":"","address2":"","city":"McNeal","state":"AZ","zip":"85617","phone":"(520) 642-9368","ext":"","email":"","url":"","category":"meat","image":"47ranch.jpg"}},{"type":"Feature","id":"providers.2","geometry":{"type":"Point","coordinates":[-111.06389102593415,31.707782322815728]},"geometry_name":"the_geom","properties":{"FNAME":"Amado","COUNTY":"Santa Cruz","LAT_DD":31.70778,"LON_DD":-111.06389,"POP2000":275,"name":"Forever Young Farm","address":"33225 S. Moyza Ranch Rd.","address2":"","city":"Amado","state":"AZ","zip":"85645","phone":"","ext":"","email":"","url":"","category":"produce","image":"nophoto.jpg"}},{"type":"Feature","id":"providers.3","geometry":{"type":"Point","coordinates":[-110.29389092933113,31.96778164429699]},"geometry_name":"the_geom","properties":{"FNAME":"Benson","COUNTY":"Cochise","LAT_DD":31.96778,"LON_DD":-110.29389,"POP2000":4711,"name":"Sleeping Frog Farms","address":"4510 N Cascabel Rd","address2":"","city":"Benson","state":"AZ","zip":"85602","phone":"(520) 212-3764","ext":"","email":"sleepingfrogfarms@gmail.com","url":"http://sleepingfrogfarms.com/","category":"produce","image":"sleepingfrogfarms.jpg"}},{"type":"Feature","id":"providers.4","geometry":{"type":"Point","coordinates":[-112.45306067772846,34.757500682530626]},"geometry_name":"the_geom","properties":{"FNAME":"Chino Valley","COUNTY":"Yavapai","LAT_DD":34.7575,"LON_DD":-112.45306,"POP2000":7835,"name":"Chino Valley Farms","address":"2572 North Road One East","address2":"","city":"Chino Valley","state":"AZ","zip":"86323","phone":"(928) 636-6131","ext":"","email":"cvfarms@cableone.net","url":"http://chinovalleyfarms.com/","category":"produce","image":"chinovalleyfarms.png"}},{"type":"Feature","id":"providers.5","geometry":{"type":"Point","coordinates":[-111.65056049057172,35.19806136407962]},"geometry_name":"the_geom","properties":{"FNAME":"Flagstaff","COUNTY":"Coconino","LAT_DD":35.19806,"LON_DD":-111.65056,"POP2000":52894,"name":"Tortilla Lady","address":"2114 N 4th Street","address2":"","city":"Flagstaff","state":"AZ","zip":"86004-4230","phone":"(928) 522-0123","ext":"","email":"","url":"https://www.facebook.com/pages/Tortilla-Lady/111717975530806","category":"specialty","image":"tortillalady.jpg"}},{"type":"Feature","id":"providers.6","geometry":{"type":"Point","coordinates":[-110.65472136503472,31.67944212324927]},"geometry_name":"the_geom","properties":{"FNAME":"Sonoita","COUNTY":"Santa Cruz","LAT_DD":31.67944,"LON_DD":-110.65472,"POP2000":826,"name":"Dos Cabezas Wineworks","address":"3248 Highway 82","address2":"","city":"Sonoita","state":"AZ","zip":"85637","phone":"(520) 455-5141","ext":"","email":"","url":"http://doscabezaswinery.com/","category":"drink","image":"doscabezas.jpg"}},{"type":"Feature","id":"providers.7","geometry":{"type":"Point","coordinates":[-110.92583074123067,32.221671196811634]},"geometry_name":"the_geom","properties":{"FNAME":"Tucson","COUNTY":"Pima","LAT_DD":32.22167,"LON_DD":-110.92583,"POP2000":486699,"name":"Borderlands Brewing Company","address":"119 E. Toole Ave.","address2":"","city":"Tucson","state":"AZ","zip":"85701","phone":"(520) 261-8773","ext":"","email":"","url":"http://borderlandsbrewing.com/","category":"drink","image":"borderlands.png"}},{"type":"Feature","id":"providers.8","geometry":{"type":"Point","coordinates":[-112.24056058466805,34.53000109466522]},"geometry_name":"the_geom","properties":{"FNAME":"Dewey-Humbolt","COUNTY":"Yavapai","LAT_DD":34.53,"LON_DD":-112.24056,"POP2000":6295,"name":"Arizona Legacy Beef","address":"","address2":"","city":"Dewey-Humboldt","state":"AZ","zip":"86329","phone":"(928) 623-8979","ext":"","email":"","url":"http://arizonalegacybeef.com/","category":"meat","image":"arizonalegacybeef.jpg"}}],"crs":{"type":"EPSG","properties":{"code":"4326"}}};                        
+
+                                 L.geoJson([producers], {
+
+                                         style: function (feature) {
+                                                 return feature.properties 
+                                         },
+
+                                         onEachFeature: onEachFeature,
+
+                                         pointToLayer: function (feature, latlng) {
+                                                 return L.circleMarker(latlng, {
+                                                         radius:4,
+                                                         fillColor: "#E80000",
+                                                         color: "#C00000",
+                                                         weight: 1,
+                                                         opacity: 1,
+                                                         fillOpacity: .8
+                                                 });
+                                         }
+                                 }).addTo(map);
+                                  </script>
+                            </div>
+                <tr>
+                    <td><p>Map legend:&nbsp;&nbsp; <img src="img/red.png" width='12'> Proper's suppliers &nbsp; &nbsp; &nbsp; <img src="img/orange.png" width='20'> Proper</p>
+                    </td>
+                </tr>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        <div>
+            <table>
+                <tr>
+                    <td><h1>Proper is loco...</h1></td>
+                </tr>
+                 <tr>
+                    <td height="500px">
+
+                        <p>...for local.</p>
+                        <img src="img/proper.jpg" width="150">
+                        <p>Proper is one of many Tucson establishments that receives food from the Arizona 'foodshed'.</p>
+                        <h3>Where Proper food comes from:</h3>
+                        <p>
+                        <ul>
+                            <li>47 Ranch (McNeal, AZ)</li>
+                            <li>Arizona Legacy Beef (Dewey-Humboldt, AZ)</li>
+                            <li>Borderlands Brewing Company (Tucson, AZ)</li>
+                            <li>Chino Valley Farms (Chino Valley, AZ)</li>
+                            <li>Dos Cabezas Wineworks (Sonoita, AZ)</li>
+                            <li>Forever Young Farms (Amado, AZ)</li>
+                            <li>Sleeping Frog Farms (Benson, AZ)</li>
+                            <li>Tortialla Lady (Flagstaff, AZ)</li>
+                        </ul>
+                        </p>
+                        <p>The map on the right shows the locations of Proper's suppliers. Click on icons for basic info.</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
